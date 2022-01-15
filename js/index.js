@@ -18,14 +18,20 @@ const ctx = canvas.getContext("2d");
 const sand = new Image();
 sand.src = "../img/sand.svg";
 const playerImg = new Image();
-playerImg.src = "../img/cowboy.png";
-const gold = new Image();
-gold.src = "../img/gold.png";
+playerImg.src = "../img/cowboy1.png"; //130x130
+const goldImg = new Image();
+goldImg.src = "../img/gold.png";
+const enemyImg = new Image();
+enemyImg.src = "../img/enemy1.png";
 
 // global variables
 let startBulletX = 0; // actual player X position when space pressed
 let startBulletY = 0; // actual player Y position when space pressed
 let bulletAlreadyExist = 0; // if 0 - there is no bullet on the canvas. If 1 - bullet is shooted
+let gold = 6;
+
+// stats
+document.querySelector("#stats ul li:nth-child(2)").innerHTML = gold;
 
 const backgroundImage = {
   img: sand,
@@ -60,8 +66,8 @@ const player = {
   img: playerImg,
   x: 700,
   y: 250,
-  gold: 10,
-  goldImg: gold,
+  goldSum: gold,
+  imgGold: goldImg,
   shoot: function () {
     const gunshot = new Audio("../audio/gunshot.mp3");
     gunshot.play();
@@ -69,16 +75,16 @@ const player = {
     setTimeout(function () {
       reload.play();
     }, 1000);
-    startBulletX = this.x + 2;
-    startBulletY = this.y + 20;
+    startBulletX = this.x + 3;
+    startBulletY = this.y + 35;
     ctx.fillStyle = "black";
     for (let i = 0; i < startBulletX + 2; i++) {
       delayBullet(i);
     }
   },
   drawGold: function () {
-    for (let i = 0; i < this.gold; i++) {
-      ctx.drawImage(this.goldImg, 940, i * 60);
+    for (let i = 0; i < this.goldSum; i++) {
+      ctx.drawImage(this.imgGold, 935, (i * 100) + 20);
     }
   },
   drawPlayer: function () {
@@ -105,7 +111,7 @@ document.onkeydown = function (e) {
       }
       break;
     case 39: // right arrow
-      if (player.x < 860) {
+      if (player.x < 815) {
         player.x += 10;
       }
       break;
