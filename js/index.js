@@ -14,6 +14,11 @@ document.getElementById("start-button").onclick = () => {
 const canvas = document.getElementById("canvas");
 const ctx = canvas.getContext("2d");
 
+// random number generator (from min to max)
+function randomNum(min, max) { // min and max included 
+  return Math.floor(Math.random() * (max - min + 1) + min)
+}
+
 // images initialization
 const sand = new Image();
 sand.src = "../img/sand.svg";
@@ -28,6 +33,7 @@ enemyImg.src = "../img/enemy1.png";
 let startBulletX = 0; // actual player X position when space pressed
 let startBulletY = 0; // actual player Y position when space pressed
 let bulletAlreadyExist = 0; // if 0 - there is no bullet on the canvas. If 1 - bullet is shooted
+let enemyExist = 0;
 let gold = 6;
 
 // stats
@@ -60,6 +66,33 @@ function delayBullet(i) {
     ctx.clearRect(startBulletX - i + 4, startBulletY - 5, 10, 10);
   }, 1 * i);
 }
+
+function moveEnemy(i) {
+  setTimeout(function () {
+    if (i < 999) {
+      enemyExist = 1;
+    } else {
+      enemyExist = 0;
+    }
+    console.log(enemyExist)
+    ctx.drawImage(enemyImg, enemy1.x + i, enemy1.y*100);
+  }, 10 * i);
+}
+
+class Enemy {
+  constructor() {
+    this.x = 0;
+    this.y = randomNum(1,6);
+  }
+  draw() {
+    for(let i = 0; i<1000;i++){
+      moveEnemy(i);
+    }
+  }
+}
+ 
+const enemy1 = new Enemy();
+console.log(enemy1);
 
 // const for player - every player-related functions are in there
 const player = {
@@ -129,6 +162,7 @@ function updateGameArea() {
   // update the player's position before drawing
   player.drawPlayer();
   player.drawGold();
+  if(enemyExist ===0){ enemy1.draw();}
 }
 
 // startGame is called by clicking start button
