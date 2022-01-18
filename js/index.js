@@ -1,8 +1,7 @@
 // start button behavior and actions
 document.getElementById("start-button").onclick = () => {
-  var audio = new Audio(
-    "https://www.myinstants.com/media/sounds/goodbadugly-whistle-long.mp3"
-  );
+  var audio = new Audio("../audio/theme.mp3");
+  audio.volume = 0.5;
   audio.play();
   audio.loop = true;
   startGame();
@@ -30,19 +29,22 @@ goldImg.src = "../img/gold.png";
 const enemyImg = new Image();
 enemyImg.src = "../img/enemy1.png";
 
+var ohno = new Audio("../audio/ohno.mp3");
+
 // global variables
 let startBulletX = 0; // actual player X position when space pressed
 let startBulletY = 0; // actual player Y position when space pressed
 let bulletAlreadyExist = 0; // if 0 - there is no bullet on the canvas. If 1 - bullet is shooted
-let bulletPosition = [0, 0];
-let gold = 4;
+let bulletPosition = [0, 0]; // actual position of the bullet
+let gold = [1, 1, 1, 1]; // count of gold player have
+const reducer = (accumulator, curr) => accumulator + curr; // reducer for counting gold from gold array
+let goldSum = 4;
 let enemy1 = {};
 let enemy2 = {};
 let enemy3 = {};
 let enemy4 = {};
 
 // stats
-document.querySelector("#stats ul li:nth-child(2)").innerHTML = gold;
 
 const backgroundImage = {
   img: sand,
@@ -73,39 +75,121 @@ function delayBullet(i) {
   }, 1 * i);
 }
 
-
 function moveEnemy(i, speed, killed, x, y, enemyNum) {
   // i - counter from class enemy .draw() function, j - row from updateGameArea()
-  var timeout = setTimeout(function () {
+  setTimeout(function () {
     if (killed === 1) {
-
-    } 
+    }
     if (i < 999) {
     } else {
-      if(enemyNum===1){enemy1.killed=0;if(enemy1.speed>4){enemy1.speed=enemy1.speed-0.3;}}
-      if(enemyNum===2){enemy2.killed=0;if(enemy2.speed>4){enemy2.speed=enemy2.speed-0.3;}}
-      if(enemyNum===3){enemy3.killed=0;if(enemy3.speed>4){enemy3.speed=enemy3.speed-0.3;}}
-      if(enemyNum===4){enemy4.killed=0;if(enemy4.speed>4){enemy4.speed=enemy4.speed-0.3;}}
+      if (enemyNum === 1) {
+        enemy1.killed = 0;
+        if (enemy1.speed > 4) {
+          enemy1.speed = enemy1.speed - 0.3;
+        }
+      }
+      if (enemyNum === 2) {
+        enemy2.killed = 0;
+        if (enemy2.speed > 4) {
+          enemy2.speed = enemy2.speed - 0.3;
+        }
+      }
+      if (enemyNum === 3) {
+        enemy3.killed = 0;
+        if (enemy3.speed > 4) {
+          enemy3.speed = enemy3.speed - 0.3;
+        }
+      }
+      if (enemyNum === 4) {
+        enemy4.killed = 0;
+        if (enemy4.speed > 4) {
+          enemy4.speed = enemy4.speed - 0.3;
+        }
+      }
       drawEnemy(enemyNum);
-
     }
-    if(bulletPosition[1] > y * 155 && bulletPosition[1] < (y * 155) + 130 && bulletPosition[0] < x + i && bulletPosition[0] < x + i){
+    // enemy stealing gold
+    if (enemyNum === 1 && enemy1.killed === 0 && i === 870) {
+      if (gold[0] === 1) {
+        ohno.play();
+      }
+      gold[enemyNum - 1] = 0;
+    }
+    if (enemyNum === 2 && enemy2.killed === 0 && i === 870) {
+      if (gold[1] === 1) {
+        ohno.play();
+      }
+      gold[enemyNum - 1] = 0;
+    }
+    if (enemyNum === 3 && enemy3.killed === 0 && i === 870) {
+      if (gold[2] === 1) {
+        ohno.play();
+      }
+      gold[enemyNum - 1] = 0;
+    }
+    if (enemyNum === 4 && enemy4.killed === 0 && i === 870) {
+      if (gold[3] === 1) {
+        ohno.play();
+      }
+      gold[enemyNum - 1] = 0;
+    }
+    // counting sum of gold from gold array
+    goldSum = gold.reduce(reducer);
+    // changing the gold stats
+    document.querySelector("#stats ul li:nth-child(3)").innerHTML = goldSum;
+
+    // sound when bullet hit enemy
+    if (
+      bulletPosition[1] > y * 155 &&
+      bulletPosition[1] < y * 155 + 130 &&
+      bulletPosition[0] < x + i &&
+      bulletPosition[0] < x + i &&
+      bulletPosition[0] > x + i - 20 &&
+      x + i > 20
+    ) {
+      var ouch = new Audio("../audio/ouch.mp3");
+      ouch.loop = false;
+      ouch.play();
+    }
+    // behavior when bullet hit the enemy
+    if (
+      bulletPosition[1] > y * 155 &&
+      bulletPosition[1] < y * 155 + 130 &&
+      bulletPosition[0] < x + i &&
+      bulletPosition[0] < x + i
+    ) {
       ctx.clearRect(x + i, y * 155, 130, 130);
-      if(enemyNum===1){enemy1.killed=1;}
-      if(enemyNum===2){enemy2.killed=1;}
-      if(enemyNum===3){enemy3.killed=1;}
-      if(enemyNum===4){enemy4.killed=1;}
+      if (enemyNum === 1) {
+        enemy1.killed = 1;
+      }
+      if (enemyNum === 2) {
+        enemy2.killed = 1;
+      }
+      if (enemyNum === 3) {
+        enemy3.killed = 1;
+      }
+      if (enemyNum === 4) {
+        enemy4.killed = 1;
+      }
       return 0;
     }
     ctx.clearRect(x + i, y * 155, 130, 130);
-      if(enemyNum===1 && enemy1.killed===0){ctx.drawImage(enemyImg, x + i, y * 155);}
-      if(enemyNum===2 && enemy2.killed===0){ctx.drawImage(enemyImg, x + i, y * 155);}
-      if(enemyNum===3 && enemy3.killed===0){ctx.drawImage(enemyImg, x + i, y * 155);}
-      if(enemyNum===4 && enemy4.killed===0){ctx.drawImage(enemyImg, x + i, y * 155);}
-    
+    if (enemyNum === 1 && enemy1.killed === 0) {
+      ctx.drawImage(enemyImg, x + i, y * 155);
+    }
+    if (enemyNum === 2 && enemy2.killed === 0) {
+      ctx.drawImage(enemyImg, x + i, y * 155);
+    }
+    if (enemyNum === 3 && enemy3.killed === 0) {
+      ctx.drawImage(enemyImg, x + i, y * 155);
+    }
+    if (enemyNum === 4 && enemy4.killed === 0) {
+      ctx.drawImage(enemyImg, x + i, y * 155);
+    }
   }, speed * i);
 }
 
+// class for enemy
 class Enemy {
   //gettin row from generateEnemies
   constructor(row) {
@@ -123,6 +207,7 @@ class Enemy {
   }
 }
 
+// generating 4 enemies (4 rows)
 function generateEnemies(kill) {
   enemy1 = new Enemy(0);
   enemy2 = new Enemy(1);
@@ -130,11 +215,20 @@ function generateEnemies(kill) {
   enemy4 = new Enemy(3);
 }
 
+// drawing enemies on the canvas
 function drawEnemy(enemyNum) {
-  if(enemyNum===1){enemy1.draw(1);}
-  if(enemyNum===2){enemy2.draw(2);}
-  if(enemyNum===3){enemy3.draw(3);}
-  if(enemyNum===4){enemy4.draw(4);}
+  if (enemyNum === 1) {
+    enemy1.draw(1);
+  }
+  if (enemyNum === 2) {
+    enemy2.draw(2);
+  }
+  if (enemyNum === 3) {
+    enemy3.draw(3);
+  }
+  if (enemyNum === 4) {
+    enemy4.draw(4);
+  }
 }
 
 // const for player - every player-related functions are in there
@@ -142,10 +236,10 @@ const player = {
   img: playerImg,
   x: 700,
   y: 250,
-  goldSum: gold,
   imgGold: goldImg,
   shoot: function () {
     const gunshot = new Audio("../audio/gunshot.mp3");
+    gunshot.volume = 0.7;
     gunshot.play();
     const reload = new Audio("../audio/reload.mp3");
     setTimeout(function () {
@@ -159,9 +253,11 @@ const player = {
     }
   },
   drawGold: function () {
-    for (let i = 0; i < this.goldSum; i++) {
-      ctx.clearRect(935, i * 150 + 40, 60, 60);
-      ctx.drawImage(this.imgGold, 935, i * 150 + 40);
+    for (let i = 0; i < 4; i++) {
+      if (gold[i] === 1) {
+        ctx.clearRect(935, i * 150 + 40, 60, 60);
+        ctx.drawImage(this.imgGold, 935, i * 150 + 40);
+      }
     }
   },
   drawPlayer: function () {
