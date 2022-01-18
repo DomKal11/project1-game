@@ -15,8 +15,9 @@ const canvas = document.getElementById("canvas");
 const ctx = canvas.getContext("2d");
 
 // random number generator (from min to max)
-function randomNum(min, max) { // min and max included 
-  return Math.floor(Math.random() * (max - min + 1) + min)
+function randomNum(min, max) {
+  // min and max included
+  return Math.floor(Math.random() * (max - min + 1) + min);
 }
 
 // images initialization
@@ -33,8 +34,12 @@ enemyImg.src = "../img/enemy1.png";
 let startBulletX = 0; // actual player X position when space pressed
 let startBulletY = 0; // actual player Y position when space pressed
 let bulletAlreadyExist = 0; // if 0 - there is no bullet on the canvas. If 1 - bullet is shooted
-let enemyExist = 0;
-let gold = 6;
+let bulletPosition = [0, 0];
+let gold = 4;
+let enemy1 = {};
+let enemy2 = {};
+let enemy3 = {};
+let enemy4 = {};
 
 // stats
 document.querySelector("#stats ul li:nth-child(2)").innerHTML = gold;
@@ -64,35 +69,73 @@ function delayBullet(i) {
     ctx.closePath();
     ctx.fill();
     ctx.clearRect(startBulletX - i + 4, startBulletY - 5, 10, 10);
+    bulletPosition = [startBulletX - i, startBulletY];
   }, 1 * i);
 }
 
-function moveEnemy(i) {
-  setTimeout(function () {
+
+function moveEnemy(i, speed, killed, x, y, enemyNum) {
+  // i - counter from class enemy .draw() function, j - row from updateGameArea()
+  var timeout = setTimeout(function () {
+    if (killed === 1) {
+
+    } 
     if (i < 999) {
-      enemyExist = 1;
     } else {
-      enemyExist = 0;
+      if(enemyNum===1){enemy1.killed=0;if(enemy1.speed>4){enemy1.speed=enemy1.speed-0.3;}}
+      if(enemyNum===2){enemy2.killed=0;if(enemy2.speed>4){enemy2.speed=enemy2.speed-0.3;}}
+      if(enemyNum===3){enemy3.killed=0;if(enemy3.speed>4){enemy3.speed=enemy3.speed-0.3;}}
+      if(enemyNum===4){enemy4.killed=0;if(enemy4.speed>4){enemy4.speed=enemy4.speed-0.3;}}
+      drawEnemy(enemyNum);
+
     }
-    console.log(enemyExist)
-    ctx.drawImage(enemyImg, enemy1.x + i, enemy1.y*100);
-  }, 10 * i);
+    if(bulletPosition[1] > y * 155 && bulletPosition[1] < (y * 155) + 130 && bulletPosition[0] < x + i && bulletPosition[0] < x + i){
+      ctx.clearRect(x + i, y * 155, 130, 130);
+      if(enemyNum===1){enemy1.killed=1;}
+      if(enemyNum===2){enemy2.killed=1;}
+      if(enemyNum===3){enemy3.killed=1;}
+      if(enemyNum===4){enemy4.killed=1;}
+      return 0;
+    }
+    ctx.clearRect(x + i, y * 155, 130, 130);
+      if(enemyNum===1 && enemy1.killed===0){ctx.drawImage(enemyImg, x + i, y * 155);}
+      if(enemyNum===2 && enemy2.killed===0){ctx.drawImage(enemyImg, x + i, y * 155);}
+      if(enemyNum===3 && enemy3.killed===0){ctx.drawImage(enemyImg, x + i, y * 155);}
+      if(enemyNum===4 && enemy4.killed===0){ctx.drawImage(enemyImg, x + i, y * 155);}
+    
+  }, speed * i);
 }
 
 class Enemy {
-  constructor() {
+  //gettin row from generateEnemies
+  constructor(row) {
+    this.killed = 0;
     this.x = 0;
-    this.y = randomNum(1,6);
+    this.y = row;
+    this.speed = randomNum(8, 12);
+    this.delay = randomNum(100, 500);
   }
-  draw() {
-    for(let i = 0; i<1000;i++){
-      moveEnemy(i);
+  draw(enemyNum) {
+    //
+    for (let i = 0; i < 1000; i++) {
+      moveEnemy(i, this.speed, this.killed, this.x, this.y, enemyNum);
     }
   }
 }
- 
-const enemy1 = new Enemy();
-console.log(enemy1);
+
+function generateEnemies(kill) {
+  enemy1 = new Enemy(0);
+  enemy2 = new Enemy(1);
+  enemy3 = new Enemy(2);
+  enemy4 = new Enemy(3);
+}
+
+function drawEnemy(enemyNum) {
+  if(enemyNum===1){enemy1.draw(1);}
+  if(enemyNum===2){enemy2.draw(2);}
+  if(enemyNum===3){enemy3.draw(3);}
+  if(enemyNum===4){enemy4.draw(4);}
+}
 
 // const for player - every player-related functions are in there
 const player = {
@@ -111,18 +154,20 @@ const player = {
     startBulletX = this.x + 3;
     startBulletY = this.y + 35;
     ctx.fillStyle = "black";
-    for (let i = 0; i < startBulletX + 2; i++) {
+    for (let i = 0; i < startBulletX + 5; i++) {
       delayBullet(i);
     }
   },
   drawGold: function () {
     for (let i = 0; i < this.goldSum; i++) {
-      ctx.drawImage(this.imgGold, 935, (i * 100) + 20);
+      ctx.clearRect(935, i * 150 + 40, 60, 60);
+      ctx.drawImage(this.imgGold, 935, i * 150 + 40);
     }
   },
   drawPlayer: function () {
-    ctx.clearRect(0, 0, 1000, 700);
+    ctx.clearRect(player.x, player.y, 130, 130);
     ctx.drawImage(this.img, this.x, this.y);
+    window.requestAnimationFrame(updateGameArea);
   },
 };
 
@@ -130,11 +175,13 @@ document.onkeydown = function (e) {
   switch (e.keyCode) {
     case 38: // up arrow
       if (player.y > 0) {
+        ctx.clearRect(player.x, player.y + 10, 130, 130);
         player.y -= 10;
       }
       break;
     case 40: // down arrow
       if (player.y < 470) {
+        ctx.clearRect(player.x, player.y - 10, 130, 130);
         player.y += 10;
       }
       break;
@@ -162,12 +209,15 @@ function updateGameArea() {
   // update the player's position before drawing
   player.drawPlayer();
   player.drawGold();
-  if(enemyExist ===0){ enemy1.draw();}
 }
 
 // startGame is called by clicking start button
 function startGame() {
-  // refreshing whole content each 20ms
-  this.interval = setInterval(updateGameArea, 20);
+  generateEnemies();
+  drawEnemy(1);
+  drawEnemy(2);
+  drawEnemy(3);
+  drawEnemy(4);
   updateGameArea();
+  window.requestAnimationFrame(updateGameArea);
 }
