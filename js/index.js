@@ -1,6 +1,6 @@
 // start button behavior and actions
 document.getElementById("start-button").onclick = () => {
-  var audio = new Audio("../audio/theme.mp3");
+  var audio = new Audio("./audio/theme.mp3");
   audio.volume = 0.5;
   audio.play();
   audio.loop = true;
@@ -21,15 +21,15 @@ function randomNum(min, max) {
 
 // images initialization
 const sand = new Image();
-sand.src = "../img/sand.svg";
+sand.src = "./img/sand.svg";
 const playerImg = new Image();
-playerImg.src = "../img/cowboy1.png"; //130x130
+playerImg.src = "./img/cowboy1.png"; //130x130
 const goldImg = new Image();
-goldImg.src = "../img/gold.png";
+goldImg.src = "./img/gold.png";
 const enemyImg = new Image();
-enemyImg.src = "../img/enemy1.png";
+enemyImg.src = "./img/enemy1.png";
 
-var ohno = new Audio("../audio/ohno.mp3");
+var ohno = new Audio("./audio/ohno.mp3");
 
 // global variables
 let startBulletX = 0; // actual player X position when space pressed
@@ -147,7 +147,7 @@ function moveEnemy(i, speed, killed, x, y, enemyNum) {
       bulletPosition[0] > x + i - 20 &&
       x + i > 20
     ) {
-      var ouch = new Audio("../audio/ouch.mp3");
+      var ouch = new Audio("./audio/ouch.mp3");
       ouch.loop = false;
       ouch.play();
     }
@@ -238,10 +238,10 @@ const player = {
   y: 250,
   imgGold: goldImg,
   shoot: function () {
-    const gunshot = new Audio("../audio/gunshot.mp3");
+    const gunshot = new Audio("./audio/gunshot.mp3");
     gunshot.volume = 0.7;
     gunshot.play();
-    const reload = new Audio("../audio/reload.mp3");
+    const reload = new Audio("./audio/reload.mp3");
     setTimeout(function () {
       reload.play();
     }, 1000);
