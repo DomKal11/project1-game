@@ -110,6 +110,9 @@ function gameOver(reason) {
   if (reason === "gold") {
     reasonText = "You lost because you have no gold left!";
   }
+  if (reason === "score") {
+    reasonText = "You can't let enemies pass even though they have nothing to steal! You will lose 50 scores for each.";
+  }
   document.getElementById("canvas").style.display = "none";
   if (requestId) {
     window.cancelAnimationFrame(requestId);
@@ -135,29 +138,31 @@ function gameOver(reason) {
 function moveEnemy(i, speed, killed, x, y, enemyNum) {
   // i - counter from class enemy .draw() function, j - row from updateGameArea()
   setTimeout(function () {
-    if (killed === 1) {
-    }
     if (i < 999) {
     } else {
       if (enemyNum === 1) {
+        if(enemy1.killed === 0){setTimeout(score = score - 50,2000)}
         enemy1.killed = 0;
         if (enemy1.speed > 4) {
           enemy1.speed = (enemy1.speed - 0.3).toFixed(2);
         }
       }
       if (enemyNum === 2) {
+        if(enemy2.killed === 0){setTimeout(score = score - 50,2000)}
         enemy2.killed = 0;
         if (enemy2.speed > 4) {
           enemy2.speed = (enemy2.speed - 0.3).toFixed(2);
         }
       }
       if (enemyNum === 3) {
+        if(enemy3.killed === 0){setTimeout(score = score - 50,2000)}
         enemy3.killed = 0;
         if (enemy3.speed > 4) {
           enemy3.speed = (enemy3.speed - 0.3).toFixed(2);
         }
       }
       if (enemyNum === 4) {
+        if(enemy4.killed === 0){setTimeout(score = score - 50,2000)}
         enemy4.killed = 0;
         if (enemy4.speed > 4) {
           enemy4.speed = (enemy4.speed - 0.3).toFixed(2);
@@ -204,15 +209,16 @@ function moveEnemy(i, speed, killed, x, y, enemyNum) {
       bulletPosition[1] > y * 155 &&
       bulletPosition[1] < y * 155 + 130 &&
       bulletPosition[0] < x + i &&
-      bulletPosition[0] > x + i - 12 &&
-      x + i > 20
+      bulletPosition[0] > x + i - 10&&
+      x + i > 5
     ) {
       var ouch = new Audio("./audio/ouch.mp3");
       ouch.loop = false;
       if (sound === 1) {
         ouch.play();
       }
-      score = score + 50;
+      setInterval(score = score + 50,100);
+      console.log(bulletPosition[0],bulletPosition[1],y * 155,y * 155 + 130,x + i)
     }
     // when enemy touch player
     if (
@@ -425,13 +431,13 @@ if (keys.down) { //move right
   }
 }
 }
-
 //
 function updateGameArea() {
   blockMove();
   // update the player's position before drawing
   player.drawPlayer();
   player.drawGold();
+  if(score<0){gameOver("score")}
 }
 
 // startGame is called by clicking start button
