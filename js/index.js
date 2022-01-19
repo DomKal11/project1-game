@@ -99,13 +99,14 @@ function delayBullet(i) {
 function gameOver(reason) {
   let reasonText = "";
   if (reason === "time") {
-    reasonText = "the time passed!";
+    reasonText = "You defended the gold until the end, great job!";
+    document.querySelector("#gameover ul li:first-child").innerHTML = "You WON!"
   }
   if (reason === "touch") {
-    reasonText = "you touched the enemy, watch out!";
+    reasonText = "You lost because you touched the enemy, watch out!";
   }
   if (reason === "gold") {
-    reasonText = "because you have no gold left!";
+    reasonText = "You lost because because you have no gold left!";
   }
   document.getElementById("canvas").style.display = "none";
   if (requestId) {
@@ -119,7 +120,7 @@ function gameOver(reason) {
     ).innerHTML = `Your score is ${score}.`;
     document.querySelector(
       "#gameover ul li:nth-child(3)"
-    ).innerHTML = `You lost because ${reasonText}`;
+    ).innerHTML = `${reasonText}`;
     gameoverSound.loop = false;
     if (sound === 1) {
       gameoverSound.play();
