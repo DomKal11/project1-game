@@ -108,7 +108,7 @@ function gameOver(reason) {
     reasonText = "You lost because you touched the enemy, watch out!";
   }
   if (reason === "gold") {
-    reasonText = "You lost because because you have no gold left!";
+    reasonText = "You lost because you have no gold left!";
   }
   document.getElementById("canvas").style.display = "none";
   if (requestId) {
