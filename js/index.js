@@ -1,18 +1,41 @@
+var audio = new Audio("./audio/theme.mp3");
+audio.volume = 0.5;
 // start button behavior and actions
 document.getElementById("start-button").onclick = () => {
   var yeehaw = new Audio("./audio/yeehaw.mp3");
   yeehaw.volume = 0.5;
   yeehaw.play();
   yeehaw.loop = false;
-  var audio = new Audio("./audio/theme.mp3");
-  audio.volume = 0.5;
   audio.play();
   audio.loop = true;
   startGame();
   document.getElementById("start-button").style.display = "none";
+  document.getElementById("game-name").style.display = "none";
   document.getElementById("cartoon").style.display = "none";
   document.getElementById("instructions").style.display = "none";
+  document.getElementById("stats").style.visibility = "visible";
   document.getElementById("canvas").style.display = "block";
+};
+
+// sounds control
+document.getElementById("sound").onclick = () => {
+  if (sound === 1) {
+    sound = 0;
+    audio.pause();
+    document.getElementById("sound").src = "img/nosound.png";
+  } else {
+    document.getElementById("sound").src = "img/sound.png";
+    sound = 1;
+    audio.play();
+  }
+  console.log(sound);
+};
+
+document.querySelector("#stats ul li:nth-child(1)").onclick = () => {
+  location.reload();
+};
+document.querySelector("#gameover ul li:nth-child(4)").onclick = () => {
+  location.reload();
 };
 
 // selecting canvas
@@ -26,8 +49,6 @@ function randomNum(min, max) {
 }
 
 // images initialization
-const sand = new Image();
-sand.src = "./img/sand.svg";
 const playerImg = new Image();
 playerImg.src = "./img/cowboy.png"; //130x130
 const goldImg = new Image();
@@ -36,13 +57,17 @@ const enemyImg = new Image();
 enemyImg.src = "./img/enemy1.png";
 
 var ohno = new Audio("./audio/ohno.mp3");
+var gameoverSound = new Audio("./audio/gameover.mp3");
 
 // global variables
 let startBulletX = 0; // actual player X position when space pressed
 let startBulletY = 0; // actual player Y position when space pressed
 let bulletAlreadyExist = 0; // if 0 - there is no bullet on the canvas. If 1 - bullet is shooted
 let bulletPosition = [0, 0]; // actual position of the bullet
-let score = 0; 
+let score = 0;
+let gameover = 0;
+let sound = 1;
+var requestId = 0;
 let gold = [1, 1, 1, 1]; // count of gold player have
 const reducer = (accumulator, curr) => accumulator + curr; // reducer for counting gold from gold array
 let goldSum = 4;
@@ -50,17 +75,6 @@ let enemy1 = {};
 let enemy2 = {};
 let enemy3 = {};
 let enemy4 = {};
-
-// stats
-
-const backgroundImage = {
-  img: sand,
-  change: function () {},
-  draw: function () {},
-  clear: function () {
-    ctx.clearRect(0, 0, 1000, 600);
-  },
-};
 
 // function get i from player.shoot() for cycle and delay the bullet
 function delayBullet(i) {
@@ -82,8 +96,37 @@ function delayBullet(i) {
   }, 1 * i);
 }
 
-function gameOver(){
-   console.log("GAME OVER");
+function gameOver(reason) {
+  let reasonText = "";
+  if (reason === "time") {
+    reasonText = "the time passed!";
+  }
+  if (reason === "touch") {
+    reasonText = "you touched the enemy, watch out!";
+  }
+  if (reason === "gold") {
+    reasonText = "because you have no gold left!";
+  }
+  document.getElementById("canvas").style.display = "none";
+  if (requestId) {
+    window.cancelAnimationFrame(requestId);
+  }
+  audio.pause();
+  if (gameover === 0) {
+    document.getElementById("gameover").style.display = "block";
+    document.querySelector(
+      "#gameover ul li:nth-child(2)"
+    ).innerHTML = `Your score is ${score}.`;
+    document.querySelector(
+      "#gameover ul li:nth-child(3)"
+    ).innerHTML = `You lost because ${reasonText}`;
+    gameoverSound.loop = false;
+    if (sound === 1) {
+      gameoverSound.play();
+    }
+    gameover = 1;
+  }
+  document.getElementById("stats").style.visibility = "hidden";
 }
 
 function moveEnemy(i, speed, killed, x, y, enemyNum) {
@@ -96,60 +139,62 @@ function moveEnemy(i, speed, killed, x, y, enemyNum) {
       if (enemyNum === 1) {
         enemy1.killed = 0;
         if (enemy1.speed > 4) {
-          enemy1.speed = enemy1.speed - 0.3;
+          enemy1.speed = (enemy1.speed - 0.3).toFixed(2);
         }
       }
       if (enemyNum === 2) {
         enemy2.killed = 0;
         if (enemy2.speed > 4) {
-          enemy2.speed = enemy2.speed - 0.3;
+          enemy2.speed = (enemy2.speed - 0.3).toFixed(2);
         }
       }
       if (enemyNum === 3) {
         enemy3.killed = 0;
         if (enemy3.speed > 4) {
-          enemy3.speed = enemy3.speed - 0.3;
+          enemy3.speed = (enemy3.speed - 0.3).toFixed(2);
         }
       }
       if (enemyNum === 4) {
         enemy4.killed = 0;
         if (enemy4.speed > 4) {
-          enemy4.speed = enemy4.speed - 0.3;
+          enemy4.speed = (enemy4.speed - 0.3).toFixed(2);
         }
       }
       drawEnemy(enemyNum);
     }
     // enemy stealing gold
     if (enemyNum === 1 && enemy1.killed === 0 && i === 870) {
-      if (gold[0] === 1) {
+      if (gold[0] === 1 && gameover === 0 && sound === 1) {
         ohno.play();
       }
       gold[enemyNum - 1] = 0;
     }
     if (enemyNum === 2 && enemy2.killed === 0 && i === 870) {
-      if (gold[1] === 1) {
+      if (gold[1] === 1 && gameover === 0 && sound === 1) {
         ohno.play();
       }
       gold[enemyNum - 1] = 0;
     }
     if (enemyNum === 3 && enemy3.killed === 0 && i === 870) {
-      if (gold[2] === 1) {
+      if (gold[2] === 1 && gameover === 0 && sound === 1) {
         ohno.play();
       }
       gold[enemyNum - 1] = 0;
     }
     if (enemyNum === 4 && enemy4.killed === 0 && i === 870) {
-      if (gold[3] === 1) {
+      if (gold[3] === 1 && gameover === 0 && sound === 1) {
         ohno.play();
       }
       gold[enemyNum - 1] = 0;
     }
     // counting sum of gold from gold array
     goldSum = gold.reduce(reducer);
-    // changing the gold stats
+    // stats
     document.querySelector("#stats ul li:nth-child(3)").innerHTML = goldSum;
     document.querySelector("#stats ul li:nth-child(2)").innerHTML = score;
-
+    if (goldSum <= 0) {
+      gameOver("gold");
+    }
 
     // sound when bullet hit enemy
     if (
@@ -161,31 +206,34 @@ function moveEnemy(i, speed, killed, x, y, enemyNum) {
     ) {
       var ouch = new Audio("./audio/ouch.mp3");
       ouch.loop = false;
-      ouch.play();
+      if (sound === 1) {
+        ouch.play();
+      }
       score = score + 50;
     }
-        // when enemy touch player
-        if (
-          player.y + 130 > y * 155 &&
-          player.y < y * 155 + 130 &&
-          player.x < x + i + 100 &&
-          player.x + 130 > x + i
-        ) {
-          if (enemyNum === 1 && enemy1.killed === 0) {
-            gameOver();
-          }
-          if (enemyNum === 2 && enemy2.killed === 0) {
-            gameOver();
-          }
-          if (enemyNum === 3 && enemy3.killed === 0) {
-            gameOver();
-          }
-          if (enemyNum === 4 && enemy4.killed === 0) {
-            gameOver();
-          }
-
-          
-        }
+    // when enemy touch player
+    if (
+      // checking if border od enemy object hits player object
+      player.y + 130 > y * 155 &&
+      player.y < y * 155 + 130 &&
+      // 100? 80?
+      player.x < x + i + 80 &&
+      player.x + 130 > x + i + 20
+    ) {
+      // checking is enemy object isn't killed already
+      if (enemyNum === 1 && enemy1.killed === 0) {
+        gameOver("touch");
+      }
+      if (enemyNum === 2 && enemy2.killed === 0) {
+        gameOver("touch");
+      }
+      if (enemyNum === 3 && enemy3.killed === 0) {
+        gameOver("touch");
+      }
+      if (enemyNum === 4 && enemy4.killed === 0) {
+        gameOver("touch");
+      }
+    }
     // behavior when bullet hit the enemy
     if (
       bulletPosition[1] > y * 155 &&
@@ -275,10 +323,14 @@ const player = {
   shoot: function () {
     const gunshot = new Audio("./audio/gunshot.mp3");
     gunshot.volume = 0.7;
-    gunshot.play();
+    if (sound === 1) {
+      gunshot.play();
+    }
     const reload = new Audio("./audio/reload.mp3");
     setTimeout(function () {
-      reload.play();
+      if (sound === 1) {
+        reload.play();
+      }
     }, 1000);
     startBulletX = this.x + 3;
     startBulletY = this.y + 35;
@@ -298,7 +350,7 @@ const player = {
   drawPlayer: function () {
     ctx.clearRect(player.x, player.y, 130, 130);
     ctx.drawImage(this.img, this.x, this.y);
-    window.requestAnimationFrame(updateGameArea);
+    requestId = window.requestAnimationFrame(updateGameArea);
   },
 };
 
@@ -329,14 +381,15 @@ document.onkeydown = function (e) {
     case 32: // space - shooting
       // if bullet does not exist, user can shoot
       if (bulletAlreadyExist === 0) {
-        player.shoot();
+        if (gameover === 0) {
+          player.shoot();
+        }
       }
       break;
   }
 };
 //
 function updateGameArea() {
-  backgroundImage.draw();
   // update the player's position before drawing
   player.drawPlayer();
   player.drawGold();
@@ -351,4 +404,15 @@ function startGame() {
   drawEnemy(4);
   updateGameArea();
   window.requestAnimationFrame(updateGameArea);
+
+  //countdown
+  var timeleft = 300;
+  var timer = setInterval(function () {
+    if (timeleft <= 0) {
+      clearInterval(timer);
+      gameOver("time");
+    }
+    document.querySelector("#stats ul li:nth-child(4)").innerHTML = timeleft;
+    timeleft -= 1;
+  }, 1000);
 }

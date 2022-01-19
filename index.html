@@ -4,35 +4,49 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
-    <link rel="icon" type="image/png" href="img/favicon.ico"/>
+    <link rel="icon" type="image/png" href="img/favicon.ico" />
     <link rel="stylesheet" href="css/style.css" />
     <title>Gold Standard: Wild West</title>
   </head>
   <body>
     <div id="stats">
-        <ul>
-            <li>xxx</li>
-            <li>xxx</li>
-            <li>xxx</li>
-            <li>xxx</li>
-            <li>xxx</li>
-        </ul>
+      <ul>
+        <li>New game</li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li><img src="img/sound.png" alt="sound" id="sound" /></li>
+      </ul>
+    </div>
+    <div id="game-name">
+      <h1>Gold Standard</h1>
+      <h2>Wild West edition</h2>
     </div>
     <div id="game-board">
-      <img src="img/cartoon.png" alt="cartoon" id="cartoon">
+      <div id="gameover">
+        <ul>
+          <li>GAME OVER!</li>
+          <li>Yout score:</li>
+          <li></li>
+          <li>New game</li>
+        </ul>
+      </div>
+      <img src="img/cartoon.png" alt="cartoon" id="cartoon" />
       <button id="start-button">StartGame</button>
       <div id="instructions">
+        <div id="instructions-title"><h3>Instructions:</h3></div>
         <div><img src=img/gold.png>Defend 4 chests of gold!</div>
         <div><img src=img/score-icon.svg>Get the highest score!</div>
         <div><img src=img/aim.png>Aim! It's a revolver, not a rifle.</div>
         <div><img src=img/speed.png>Enemies getting faster and faster!</div>
-        <div>If the enemies steal all 4 chests of gold, you lose. You can't shoot rapid fire, you have a revolver, not an AR-15.</div>
-        
-    </div>
+        <div>
+          If the enemies steal all 4 chests of gold, you lose. You can't shoot
+          rapid fire, you have a revolver, not an AR-15.
+        </div>
+      </div>
       <canvas id="canvas" width="1000" height="600"></canvas>
     </div>
-    <div class="game-intro">
-      </div>
+    <div class="game-intro"></div>
     <script type="text/javascript" src="js/index.js"></script>
   </body>
 </html>
