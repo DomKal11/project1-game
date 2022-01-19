@@ -1,7 +1,10 @@
+let sound = 0;
 var audio = new Audio("./audio/theme.mp3");
 audio.volume = 0.5;
+
 // start button behavior and actions
 document.getElementById("start-button").onclick = () => {
+  sound = 1;
   var yeehaw = new Audio("./audio/yeehaw.mp3");
   yeehaw.volume = 0.5;
   yeehaw.play();
@@ -66,7 +69,6 @@ let bulletAlreadyExist = 0; // if 0 - there is no bullet on the canvas. If 1 - b
 let bulletPosition = [0, 0]; // actual position of the bullet
 let score = 0;
 let gameover = 0;
-let sound = 1;
 var requestId = 0;
 let gold = [1, 1, 1, 1]; // count of gold player have
 const reducer = (accumulator, curr) => accumulator + curr; // reducer for counting gold from gold array
