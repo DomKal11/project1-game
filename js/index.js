@@ -357,29 +357,20 @@ const player = {
   },
 };
 
+var keys ={left:false, right:false,up:false,down:false};
 document.onkeydown = function (e) {
   switch (e.keyCode) {
     case 38: // up arrow
-      if (player.y > 0) {
-        ctx.clearRect(player.x, player.y + 10, 130, 130);
-        player.y -= 10;
-      }
+        keys.up = true;
       break;
     case 40: // down arrow
-      if (player.y < 470) {
-        ctx.clearRect(player.x, player.y - 10, 130, 130);
-        player.y += 10;
-      }
+        keys.down = true;
       break;
     case 37: // left arrow
-      if (player.x > 0) {
-        player.x -= 10;
-      }
+        keys.left = true;
       break;
     case 39: // right arrow
-      if (player.x < 815) {
-        player.x += 10;
-      }
+        keys.right = true;
       break;
     case 32: // space - shooting
       // if bullet does not exist, user can shoot
@@ -390,9 +381,54 @@ document.onkeydown = function (e) {
       }
       break;
   }
-};
+}
+document.onkeyup = function (e) {
+  //forget "down" state
+  switch (e.keyCode) {
+    case 38: // up arrow
+        ctx.clearRect(player.x, player.y + 10, 130, 130);
+        keys.up = false;;
+      break;
+    case 40: // down arrow
+        ctx.clearRect(player.x, player.y - 10, 130, 130);
+        keys.down = false;
+      break;
+    case 37: // left arrow
+        keys.left = false;
+      break;
+    case 39: // right arrow
+        keys.right = false;
+      break;
+  }
+}
+function blockMove(){
+  if (keys.left) { //move left
+    if (player.x > 0) {
+      player.x -= 2;
+    }
+}
+if (keys.right) { //move right
+  if (player.x < 815) {
+    player.x += 2;
+  }
+}
+if (keys.up) { //move left
+  if (player.y > 0) {
+    ctx.clearRect(player.x, player.y + 10, 130, 130);
+    player.y -= 2;
+  }
+}
+if (keys.down) { //move right
+  if (player.y < 470) {
+    ctx.clearRect(player.x, player.y - 10, 130, 130);
+    player.y += 2;
+  }
+}
+}
+
 //
 function updateGameArea() {
+  blockMove();
   // update the player's position before drawing
   player.drawPlayer();
   player.drawGold();
