@@ -331,7 +331,6 @@ const player = {
   imgGold: goldImg,
   shoot: function () {
     const gunshot = new Audio("./audio/gunshot.mp3");
-    gunshot.volume = 0.7;
     if (sound === 1) {
       gunshot.play();
     }
@@ -340,7 +339,7 @@ const player = {
       if (sound === 1) {
         reload.play();
       }
-    }, 1000);
+    }, 400);
     startBulletX = this.x + 3;
     startBulletY = this.y + 35;
     ctx.fillStyle = "black";
