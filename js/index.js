@@ -1,3 +1,4 @@
+// set sound to 0, start button will change it to 1. Audio started
 let sound = 0;
 var audio = new Audio("./audio/theme.mp3");
 audio.volume = 0.5;
@@ -59,6 +60,7 @@ goldImg.src = "./img/gold.png";
 const enemyImg = new Image();
 enemyImg.src = "./img/enemy1.png";
 
+// sounds if chect is stolen, if game is over
 var ohno = new Audio("./audio/ohno.mp3");
 var gameoverSound = new Audio("./audio/gameover.mp3");
 
@@ -98,6 +100,7 @@ function delayBullet(i) {
   }, 1 * i);
 }
 
+// function fo game over. Also getting the reason code - depending on what caused the game over. Will show the reason to a player
 function gameOver(reason) {
   let reasonText = "";
   if (reason === "time") {
@@ -135,9 +138,11 @@ function gameOver(reason) {
   document.getElementById("stats").style.visibility = "hidden";
 }
 
-function moveEnemy(i, speed, killed, x, y, enemyNum) {
+// function causing enemy to move
+function moveEnemy(i, speed, x, y, enemyNum) {
   // i - counter from class enemy .draw() function, j - row from updateGameArea()
   setTimeout(function () {
+    // if i>999 - enemy reached the right end of the canvas
     if (i < 999) {
     } else {
       if (enemyNum === 1) {
@@ -203,7 +208,6 @@ function moveEnemy(i, speed, killed, x, y, enemyNum) {
     if (goldSum <= 0) {
       gameOver("gold");
     }
-
     // sound when bullet hit enemy
     if (
       bulletPosition[1] > y * 155 &&
@@ -225,7 +229,6 @@ function moveEnemy(i, speed, killed, x, y, enemyNum) {
       // checking if border od enemy object hits player object
       player.y + 130 > y * 155 &&
       player.y < y * 155 + 130 &&
-      // 100? 80?
       player.x < x + i + 80 &&
       player.x + 130 > x + i + 20
     ) {
@@ -289,12 +292,11 @@ class Enemy {
     this.x = 0;
     this.y = row;
     this.speed = randomNum(8, 15);
-    this.delay = randomNum(100, 500);
   }
   draw(enemyNum) {
     //
     for (let i = 0; i < 1000; i++) {
-      moveEnemy(i, this.speed, this.killed, this.x, this.y, enemyNum);
+      moveEnemy(i, this.speed, this.x, this.y, enemyNum);
     }
   }
 }
@@ -362,6 +364,7 @@ const player = {
   },
 };
 
+// comparing onkeydown and onkeyup. Using keys object for it.
 var keys ={left:false, right:false,up:false,down:false};
 document.onkeydown = function (e) {
   switch (e.keyCode) {
@@ -406,6 +409,7 @@ document.onkeyup = function (e) {
       break;
   }
 }
+// taking care of player moving on the map. 
 function blockMove(){
   if (keys.left) { //move left
     if (player.x > 0) {
@@ -430,7 +434,7 @@ if (keys.down) { //move right
   }
 }
 }
-//
+// updating game area using .requestAnimationframe()
 function updateGameArea() {
   blockMove();
   // update the player's position before drawing
