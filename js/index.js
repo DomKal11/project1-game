@@ -288,7 +288,7 @@ class Enemy {
     this.killed = 0;
     this.x = 0;
     this.y = row;
-    this.speed = randomNum(8, 14);
+    this.speed = randomNum(8, 15);
     this.delay = randomNum(100, 500);
   }
   draw(enemyNum) {
