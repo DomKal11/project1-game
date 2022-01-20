@@ -17,7 +17,7 @@
 <h3 align="center">Project 1 - Game: Gold Standard</h3>
 
   <p align="center">
-    project_description
+    This is my first project - creating a simple game in Javascript. The game is rendered on canvas, the animation of most objects is solved using .requestAnimationFrame () and the sub-objects also use .setInterval (). Visual changes to the canvas are handled using the DOM. Your task is to guard 4 chests of gold, not to touch the enemy, not to let the enemies pass (otherwise you will be deducted from the score) and do it all within the time limit of 240s.
     <br />
     <a href="https://github.com/DomKal11/project1-game"><strong>Explore the docs »</strong></a>
     <br />
@@ -43,11 +43,7 @@
       </ul>
     </li>
     <li>
-      <a href="#getting-started">Getting Started</a>
-      <ul>
-        <li><a href="#prerequisites">Prerequisites</a></li>
-        <li><a href="#installation">Installation</a></li>
-      </ul>
+      <a href="#controls">Controls</a>
     </li>
     <li><a href="#usage">Usage</a></li>
     <li><a href="#roadmap">Roadmap</a></li>
@@ -65,7 +61,7 @@
 
 [![Product Name Screen Shot][product-screenshot]](https://example.com)
 
-Here's a blank template to get started: To avoid retyping too much info. Do a search and replace with your text editor for the following: `github_username`, `repo_name`, `twitter_handle`, `linkedin_username`, `email`, `email_client`, `project_title`, `project_description`
+This is a simple game created primarily using Javascript, which is rendered on canvas. The game starts by pressing the "start game" button, which displays the canvas and starts drawing the individual elements on it.
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
@@ -73,50 +69,19 @@ Here's a blank template to get started: To avoid retyping too much info. Do a se
 
 ### Built With
 
-* [Next.js](https://nextjs.org/)
-* [React.js](https://reactjs.org/)
-* [Vue.js](https://vuejs.org/)
-* [Angular](https://angular.io/)
-* [Svelte](https://svelte.dev/)
-* [Laravel](https://laravel.com)
-* [Bootstrap](https://getbootstrap.com)
-* [JQuery](https://jquery.com)
+* [Javascript]()
+* [HTML]()
+* [CSS]()
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
 
 
-<!-- GETTING STARTED -->
-## Getting Started
+<!-- CONTROLS -->
+## Controls
 
 This is an example of how you may give instructions on setting up your project locally.
 To get a local copy up and running follow these simple example steps.
-
-### Prerequisites
-
-This is an example of how to list things you need to use the software and how to install them.
-* npm
-  ```sh
-  npm install npm@latest -g
-  ```
-
-### Installation
-
-1. Get a free API Key at [https://example.com](https://example.com)
-2. Clone the repo
-   ```sh
-   git clone https://github.com/github_username/repo_name.git
-   ```
-3. Install NPM packages
-   ```sh
-   npm install
-   ```
-4. Enter your API in `config.js`
-   ```js
-   const API_KEY = 'ENTER YOUR API';
-   ```
-
-<p align="right">(<a href="#top">back to top</a>)</p>
 
 
 
