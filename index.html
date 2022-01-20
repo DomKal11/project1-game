@@ -9,47 +9,53 @@
     <title>Gold Standard: Wild West</title>
   </head>
   <body>
-    <div id="stats">
-      <ul>
-        <li>New game</li>
-        <li>0</li>
-        <li>4</li>
-        <li>240</li>
-        <li><img src="img/sound.png" alt="sound" id="sound" /></li>
-      </ul>
+    <div id="not-supported">
+      The game is not supported on devices with screen width smaller than
+      1250px!
     </div>
-    <div id="game-name">
-      <h1>Gold Standard</h1>
-      <h2>Wild West</h2>
-      <p>Made by Dominik Kaloc</p>
-    </div>
-    <div id="game-board">
-      <div id="gameover">
+    <div id="container">
+      <div id="stats">
         <ul>
-          <li>GAME OVER!</li>
-          <li>Yout score:</li>
-          <li></li>
           <li>New game</li>
+          <li>0</li>
+          <li>4</li>
+          <li>240</li>
+          <li><img src="img/sound.png" alt="sound" id="sound" /></li>
         </ul>
       </div>
-      <img src="img/cartoon.png" alt="cartoon" id="cartoon" />
-      <button id="start-button">StartGame</button>
-      <div id="instructions">
-        <div id="instructions-title"><h3>Instructions:</h3></div>
-        <div><img src=img/arrows.png>Use ARROWS to move.</div>
-        <div><img src=img/space.png>Use SPACE to shoot.</div>
-        <div><img src=img/gold.png>Defend 4 chests of gold!</div>
-        <div><img src=img/speed.png>Enemies getting faster and faster!</div>
-        <div><img src=img/aim.png>Aim! It's a revolver, not a rifle.</div>
-        <div><img src=img/score-icon.svg>Get the highest score!</div>
-        <div>
-          If the enemies steal all 4 chests of gold, time passes, you touch
-          the enemy or you letting them through, you lose.
-        </div>
+      <div id="game-name">
+        <h1>Gold Standard</h1>
+        <h2>Wild West</h2>
+        <p>Made by Dominik Kaloc</p>
       </div>
-      <canvas id="canvas" width="1000" height="600"></canvas>
+      <div id="game-board">
+        <div id="gameover">
+          <ul>
+            <li>GAME OVER!</li>
+            <li>Yout score:</li>
+            <li></li>
+            <li>New game</li>
+          </ul>
+        </div>
+        <img src="img/cartoon.png" alt="cartoon" id="cartoon" />
+        <button id="start-button">StartGame</button>
+        <div id="instructions">
+          <div id="instructions-title"><h3>Instructions:</h3></div>
+          <div><img src=img/arrows.png>Use ARROWS to move.</div>
+          <div><img src=img/space.png>Use SPACE to shoot.</div>
+          <div><img src=img/gold.png>Defend 4 chests of gold!</div>
+          <div><img src=img/speed.png>Enemies getting faster and faster!</div>
+          <div><img src=img/aim.png>Aim! It's a revolver, not a rifle.</div>
+          <div><img src=img/score-icon.svg>Get the highest score!</div>
+          <div>
+            If the enemies steal all 4 chests of gold, time passes, you touch
+            the enemy or you letting them through, you lose.
+          </div>
+        </div>
+        <canvas id="canvas" width="1000" height="600"></canvas>
+      </div>
+      <div class="game-intro"></div>
+      <script type="text/javascript" src="js/index.js"></script>
     </div>
-    <div class="game-intro"></div>
-    <script type="text/javascript" src="js/index.js"></script>
   </body>
 </html>
