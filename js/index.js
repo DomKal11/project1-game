@@ -451,7 +451,7 @@ function startGame() {
   window.requestAnimationFrame(updateGameArea);
 
   //countdown
-  var timeleft = 300;
+  var timeleft = 240;
   var timer = setInterval(function () {
     if (timeleft <= 0) {
       clearInterval(timer);
