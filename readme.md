@@ -141,9 +141,9 @@ Project Link: [https://github.com/DomKal11/project1-game](https://github.com/Dom
 <!-- https://www.markdownguide.org/basic-syntax/#reference-style-links -->
 [contributors-shield]: https://img.shields.io/github/contributors/domkal11/project1-game.svg?style=for-the-badge
 [contributors-url]: https://github.com/DomKal11/project1-game/graphs/contributors
-[forks-shield]: https://img.shields.io/github/forks/github_username/repo_name.svg?style=for-the-badge
+[forks-shield]: https://img.shields.io/github/forks/domkal11/project1-game.svg?style=for-the-badge
 [forks-url]: https://github.com/DomKal11/project1-game/network/members
-[issues-shield]: https://img.shields.io/github/issues/github_username/repo_name.svg?style=for-the-badge
+[issues-shield]: https://img.shields.io/github/issues/domkal11/project1-game.svg?style=for-the-badge
 [issues-url]: https://github.com/DomKal11/project1-game/issues
 [linkedin-shield]: https://img.shields.io/badge/-LinkedIn-black.svg?style=for-the-badge&logo=linkedin&colorB=555
 [linkedin-url]: https://www.linkedin.com/in/dominik-kalo%C4%8D-561519120/
