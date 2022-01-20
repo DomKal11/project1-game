@@ -1,9 +1,7 @@
-[![Contributors][contributors-shield]][contributors-url]
-[![Forks][forks-shield]][forks-url]
-[![Stargazers][stars-shield]][stars-url]
-[![Issues][issues-shield]][issues-url]
-[![MIT License][license-shield]][license-url]
-[![LinkedIn][linkedin-shield]][linkedin-url]
+[![Contributors][contributors-shield]][https://github.com/DomKal11/project1-game/graphs/contributors]
+[![Forks][forks-shield]][https://github.com/DomKal11/project1-game/network/members]
+[![Issues][issues-shield]][https://github.com/DomKal11/project1-game/issues]
+[![LinkedIn][linkedin-shield]][https://www.linkedin.com/in/dominik-kalo%C4%8D-561519120/]
 
 
 
@@ -45,10 +43,8 @@
     <li>
       <a href="#controls">Controls</a>
     </li>
-    <li><a href="#usage">Usage</a></li>
     <li><a href="#roadmap">Roadmap</a></li>
     <li><a href="#contributing">Contributing</a></li>
-    <li><a href="#license">License</a></li>
     <li><a href="#contact">Contact</a></li>
     <li><a href="#acknowledgments">Acknowledgments</a></li>
   </ol>
@@ -59,7 +55,7 @@
 <!-- ABOUT THE PROJECT -->
 ## About The Project
 
-[![Product Name Screen Shot][product-screenshot]](https://example.com)
+[![Product Name Screen Shot][product-screenshot]](https://domkal11.github.io/project1-game/)
 
 This is a simple game created primarily using Javascript, which is rendered on canvas. The game starts by pressing the "start game" button, which displays the canvas and starts drawing the individual elements on it.
 
@@ -82,8 +78,11 @@ This is a simple game created primarily using Javascript, which is rendered on c
 
 As a player, you are a cowboy who defend chests of gold and tries to get the highest scores.
 
-<b>ARROWS</b> - use the arrows to control the cowboy's movement on the map
-<b>SPACE - use space to shoot the enemies. You can only fire once, once the bullet disappears from the map, you can do it again.
+* <b>ARROWS</b> - use the arrows to control the cowboy's movement on the map
+* <b>SPACE - use space to shoot the enemies. You can only fire once, once the bullet disappears from the map, you can do it again.
+
+<b>WIN scenario</b>:
+* You win if you have at least one chest of gold, you don't have a negative score and you lasted until the end of the countdown. Congratulations!
 
 <b>GAME OVER reasons</b>:
 * when you touch the enemy
@@ -93,24 +92,18 @@ As a player, you are a cowboy who defend chests of gold and tries to get the hig
 
 Enemies are generated randomly, at a random rate. Their speed increases during the game.
 
-<!-- USAGE EXAMPLES -->
-## Usage
-
-Use this space to show useful examples of how a project can be used. Additional screenshots, code examples and demos work well in this space. You may also link to more resources.
-
-_For more examples, please refer to the [Documentation](https://example.com)_
-
-<p align="right">(<a href="#top">back to top</a>)</p>
-
-
 
 <!-- ROADMAP -->
 ## Roadmap
 
-- [] Feature 1
-- [] Feature 2
-- [] Feature 3
-    - [] Nested Feature
+- [] Moving of the cowboy - this is handled by onKeyDown and onKeyUp comparing (to make the move smooth). On specific key number (arrows), specific parameter is changed.
+- [] Shooting - shoot is fired when spce is pressed (same functionality - onKeyDown/onKeyUp comparing). Function .shoot() of player object Player is called then. Function .shoot() passing the for cycle counter value to the .delayBullet() function which is taking care of the time delay when bullet is moving from right to left.
+- [] Enemies moving - same principle as I used for drawing of the bullet. Enemies getting 0.3 deducted from actual speed when they pass (so they are faster and faster). 
+    - [] Enemy touch player - there is afunction checking if the player didn't touch the enemy. If yes - the game is over.
+    - [] Enemy hit by bullet - another function is checking if the bullet didn't meet the enemy actual position. If yes, enemy is killed, score increased by 50.
+    - [] Enemy steal gold chest - if enemy is not killed and reached right end of the canvas, gold chest will be stealed if it's still there.
+    - [] Enemy has passed, but the chest is not there - in this case, if you still have some gold left, only score is deducted by -50. 
+- [] Game Over - please check the GAME OVER reasons above. If you lose, the reason of your lost will always be displayed!
 
 See the [open issues](https://github.com/github_username/repo_name/issues) for a full list of proposed features (and known issues).
 
@@ -136,21 +129,12 @@ Don't forget to give the project a star! Thanks again!
 
 
 
-<!-- LICENSE -->
-## License
-
-Distributed under the MIT License. See `LICENSE.txt` for more information.
-
-<p align="right">(<a href="#top">back to top</a>)</p>
-
-
-
 <!-- CONTACT -->
 ## Contact
 
-Your Name - [@twitter_handle](https://twitter.com/twitter_handle) - email@email_client.com
+Dominik Kaloc - dominikkaloc[@]gmail.com
 
-Project Link: [https://github.com/github_username/repo_name](https://github.com/github_username/repo_name)
+Project Link: [https://github.com/DomKal11/project1-game](https://github.com/DomKal11/project1-game)
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
