@@ -63,6 +63,7 @@ enemyImg.src = "./img/enemy1.png";
 // sounds if chect is stolen, if game is over
 var ohno = new Audio("./audio/ohno.mp3");
 var gameoverSound = new Audio("./audio/gameover.mp3");
+var winSound = new Audio("./audio/win.mp3");
 
 // global variables
 let startBulletX = 0; // actual player X position when space pressed
@@ -70,6 +71,7 @@ let startBulletY = 0; // actual player Y position when space pressed
 let bulletAlreadyExist = 0; // if 0 - there is no bullet on the canvas. If 1 - bullet is shooted
 let bulletPosition = [0, 0]; // actual position of the bullet
 let score = 0;
+let win = 0;
 let gameover = 0;
 var requestId = 0;
 let gold = [1, 1, 1, 1]; // count of gold player have
@@ -104,6 +106,9 @@ function delayBullet(i) {
 function gameOver(reason) {
   let reasonText = "";
   if (reason === "time") {
+    win = 1;
+    winSound.loop = false;
+    winSound.play();
     reasonText = "You defended the gold until the end, great job!";
     document.querySelector("#gameover ul li:first-child").innerHTML = "You WON!"
   }
@@ -130,7 +135,7 @@ function gameOver(reason) {
       "#gameover ul li:nth-child(3)"
     ).innerHTML = `${reasonText}`;
     gameoverSound.loop = false;
-    if (sound === 1) {
+    if (sound === 1 && win === 0) {
       gameoverSound.play();
     }
     gameover = 1;
@@ -454,7 +459,7 @@ function startGame() {
   window.requestAnimationFrame(updateGameArea);
 
   //countdown
-  var timeleft = 240;
+  var timeleft = 10;
   var timer = setInterval(function () {
     if (timeleft <= 0) {
       clearInterval(timer);
