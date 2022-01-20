@@ -69,9 +69,9 @@ This is a simple game created primarily using Javascript, which is rendered on c
 
 ### Built With
 
-* [Javascript]()
-* [HTML]()
-* [CSS]()
+* Javascript
+* HTML
+* CSS
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
@@ -80,10 +80,18 @@ This is a simple game created primarily using Javascript, which is rendered on c
 <!-- CONTROLS -->
 ## Controls
 
-This is an example of how you may give instructions on setting up your project locally.
-To get a local copy up and running follow these simple example steps.
+As a player, you are a cowboy who defend chests of gold and tries to get the highest scores.
 
+<b>ARROWS</b> - use the arrows to control the cowboy's movement on the map
+<b>SPACE - use space to shoot the enemies. You can only fire once, once the bullet disappears from the map, you can do it again.
 
+<b>GAME OVER reasons</b>:
+* when you touch the enemy
+* when you have not a single chest of gold left
+* when time runs out
+* when your score is negative. This happens when you let the enemies pass - each one will deduct -50 scores
+
+Enemies are generated randomly, at a random rate. Their speed increases during the game.
 
 <!-- USAGE EXAMPLES -->
 ## Usage
