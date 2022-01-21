@@ -32,7 +32,6 @@ document.getElementById("sound").onclick = () => {
     sound = 1;
     audio.play();
   }
-  console.log(sound);
 };
 
 document.querySelector("#stats ul li:nth-child(1)").onclick = () => {
@@ -227,7 +226,6 @@ function moveEnemy(i, speed, x, y, enemyNum) {
         ouch.play();
       }
       setInterval(score = score + 50,100);
-      console.log(bulletPosition[0],bulletPosition[1],y * 155,y * 155 + 130,x + i)
     }
     // when enemy touch player
     if (
